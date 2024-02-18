@@ -1,5 +1,3 @@
-import 'package:fluttertoast/fluttertoast.dart';
-
 import '../../shared_preferences_flutter.dart';
 
 class HomeController extends GetxController {
@@ -12,13 +10,31 @@ class HomeController extends GetxController {
 
   static final instance = Get.find<HomeController>();
 
-  //*set
+  //*DIRECT SET BOOL VALUE OF ONLY SIWTCH BUTTON
+  bool alarmSettingBoolValue = false;
+  Future<void> handleAlarmSetting({required bool value}) async {
+    final prefs = await SharedPreferences.getInstance();
+    alarmSettingBoolValue = value;
+    await prefs.setBool('alarmSettingBoolValue', value);
+    debugPrint('Switch alarm setting value: $alarmSettingBoolValue');
+    update();
+  }
+
+  //*DIRECT GET BOOL VALUE OF ONLY SWITCH BUTTON
+  Future<void> loadAlarmSetting() async {
+    final prefs = await SharedPreferences.getInstance();
+    var alarmSettingBool = prefs.getBool('alarmSettingBoolValue') ?? false;
+    alarmSettingBoolValue = alarmSettingBool;
+    update();
+    debugPrint('Switch alarm setting value: $alarmSettingBoolValue');
+  }
+  //*setString
   Future<void> setStringData() async {
     final result = await SharedPreferencesService.getInstance();
     result.setStringData(name: stringController.text);
   }
 
-  //*get
+  //*getString
   String stringData = 'N/A';
   Future<void> getStringData() async {
     final result = await SharedPreferencesService.getInstance();
@@ -35,7 +51,7 @@ class HomeController extends GetxController {
     });
 
     update();
-    debugPrint('String: ${await result.getStringData()}');
+    debugPrint('Images Path: ${await result.getStringData()}');
   }
 
   //*setInt

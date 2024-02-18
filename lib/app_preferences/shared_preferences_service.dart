@@ -16,7 +16,7 @@ class SharedPreferencesService {
     return _instance!;
   }
 
-  //*SetStringData
+  //*SetStringData 
   Future<Either<String, void>> setStringData({required String name}) async {
     try {
       await _preferences.setString(SharedPreferencesKeys.nameKey, name);
